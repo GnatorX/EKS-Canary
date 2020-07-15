@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: echoserver
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/tags: Environment=dev,Team=test
+    alb.ingress.kubernetes.io/actions.forward-multiple-tg: >
+      {"Type":"forward","ForwardConfig":{"TargetGroups":[{"ServiceName":"echoserver","ServicePort":"80","Weight":95},{"ServiceName":"echoserver2-canary","ServicePort":"80","Weight":5}]}}
+spec:
+  rules:
+    - host: echoserver.example.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: forward-multiple-tg
+              servicePort: use-annotation
