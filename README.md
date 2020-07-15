@@ -21,10 +21,10 @@ kubectl apply -f ./echoserver.yaml
 kubectl apply -f ./echoserver-canary.yaml
 ```
 
-Check that they are working.
+Check that they are working by checking pods are in Running state and all services have endpoints
 
 ```bash
+kubectl get pods
 kubectl get endpoints
 ```
-
-Confirm both services have IPs behind it.
+[podsandservicestatus](./images/podssvcstatus.png)
